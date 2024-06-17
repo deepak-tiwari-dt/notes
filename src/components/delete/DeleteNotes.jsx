@@ -18,9 +18,9 @@ const DeleteNotes = () => {
     <Box sx={{ display: "flex", width: "100%" }}>
       <Box sx={{ p: 3, width: "100%" }}>
         <DrawerHeader />
-        <Grid container>
+        <Grid container spacing={2}>
           {deleteNotes.map((deleteNote) => (
-            <Grid item>
+            <Grid item key={deleteNote.id}>
               <DeleteNote deleteNote={deleteNote} />
             </Grid>
           ))}

@@ -1,9 +1,15 @@
 import { useContext } from "react";
-import { DataContext } from "../../context/DataProvider";
+import { AuthContext } from "../context/AuthProvider";
+import { DataContext } from "../context/DataProvider";
 import Note from "./Note";
 
 const NotesContainer = () => {
+  const { user } = useContext(AuthContext);
   const { notes, pinnedNotes } = useContext(DataContext);
+
+  if (!user) {
+    return <div>Please log in to view your notes.</div>;
+  }
 
   const unpinnedNotes = notes.filter((note) => !note.pinned);
 

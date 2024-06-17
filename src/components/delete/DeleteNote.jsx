@@ -17,7 +17,7 @@ const StyledCard = styled(Card)`
 `;
 
 const DeleteNote = ({ deleteNote }) => {
-  const { deleteNotes, setNotes, setAcrchiveNotes, setDeleteNotes } =
+  const { deleteNotes, setNotes, setArchiveNotes, setDeleteNotes } =
     useContext(DataContext);
 
   const restoreNote = (deleteNote) => {
@@ -42,12 +42,12 @@ const DeleteNote = ({ deleteNote }) => {
         <Typography>{deleteNote.text}</Typography>
       </CardContent>
       <CardActions>
+        <Restore fontSize="small" onClick={() => restoreNote(deleteNote)} />
         <Delete
           fontSize="small"
           style={{ marginLeft: "auto" }}
           onClick={() => removeNote(deleteNote)}
         />
-        <Restore fontSize="small" onClick={() => restoreNote(deleteNote)} />
       </CardActions>
     </StyledCard>
   );
