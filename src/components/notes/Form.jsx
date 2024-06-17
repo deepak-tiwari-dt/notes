@@ -34,7 +34,7 @@ const Form = () => {
 
   const handleClickAway = () => {
     setShowTextField(false);
-    containerRef.current.style.minheight = "30px";
+    containerRef.current.style.minHeight = "30px";
     setAddNote({ ...note, id: uuid() });
 
     if (addNote.heading || addNote.text) {
@@ -44,12 +44,14 @@ const Form = () => {
 
   const onTextAreaClick = () => {
     setShowTextField(true);
-    containerRef.current.style.minheight = "70px";
+    containerRef.current.style.minHeight = "70px";
   };
 
   const onTextChange = (e) => {
-    let changedNote = { ...addNote, [e.target.name]: e.target.value };
-    setAddNote(changedNote);
+    setAddNote((prevNote) => ({
+      ...prevNote,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
@@ -61,7 +63,7 @@ const Form = () => {
             variant="standard"
             InputProps={{ disableUnderline: true }}
             style={{ marginBottom: 10 }}
-            onChange={(e) => onTextChange(e)}
+            onChange={onTextChange}
             name="heading"
             value={addNote.heading}
           />
@@ -73,7 +75,7 @@ const Form = () => {
           variant="standard"
           InputProps={{ disableUnderline: true }}
           onClick={onTextAreaClick}
-          onChange={(e) => onTextChange(e)}
+          onChange={onTextChange}
           name="text"
           value={addNote.text}
         />

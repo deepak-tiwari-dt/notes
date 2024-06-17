@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -44,30 +44,33 @@ const Note = ({ note }) => {
   const [editedHeading, setEditedHeading] = useState(note.heading);
   const [editedText, setEditedText] = useState(note.text);
 
-  const archiveNote = (note) => {
+  const archiveNote = useCallback(() => {
     const updatedNotes = notes.filter((data) => data.id !== note.id);
     setNotes(updatedNotes);
     setArchiveNotes((prevArr) => [note, ...prevArr]);
-  };
+  }, [note, notes, setArchiveNotes, setNotes]);
 
-  const deleteNote = (note) => {
+  const deleteNote = useCallback(() => {
     const updatedNotes = notes.filter((data) => data.id !== note.id);
     setNotes(updatedNotes);
     setDeleteNotes((prevArr) => [note, ...prevArr]);
-  };
+  }, [note, notes, setDeleteNotes, setNotes]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
+    if (!editedHeading.trim() || !editedText.trim()) {
+      return;
+    }
     const updatedNote = { ...note, heading: editedHeading, text: editedText };
     const updatedNotes = notes.map((n) => (n.id === note.id ? updatedNote : n));
     setNotes(updatedNotes);
     setIsEditing(false);
-  };
+  }, [note, notes, editedHeading, editedText, setNotes]);
 
-  const pinNote = (note) => {
+  const pinNote = useCallback(() => {
     const isPinned = !note.pinned;
     const updatedNote = { ...note, pinned: isPinned };
     const updatedNotes = notes.map((n) => (n.id === note.id ? updatedNote : n));
@@ -79,7 +82,7 @@ const Note = ({ note }) => {
       const updatedPinnedNotes = pinnedNotes.filter((n) => n.id !== note.id);
       setPinnedNotes(updatedPinnedNotes);
     }
-  };
+  }, [note, notes, pinnedNotes, setNotes, setPinnedNotes]);
 
   return (
     <StyledCard>
@@ -120,15 +123,15 @@ const Note = ({ note }) => {
             <Edit fontSize="small" />
           </IconButton>
         )}
-        <IconButton onClick={() => pinNote(note)}>
+        <IconButton onClick={pinNote}>
           {note.pinned ? <Unpin fontSize="small" /> : <Pin fontSize="small" />}
         </IconButton>
         <Archive
           fontSize="small"
           style={{ marginLeft: "auto" }}
-          onClick={() => archiveNote(note)}
+          onClick={archiveNote}
         />
-        <Delete fontSize="small" onClick={() => deleteNote(note)} />
+        <Delete fontSize="small" onClick={deleteNote} />
       </CardActions>
     </StyledCard>
   );

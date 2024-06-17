@@ -1,5 +1,6 @@
 import { LightbulbOutlined as Lightbulb } from "@mui/icons-material";
-import { Typography, Box, styled } from "@mui/material";
+import { Typography, Box, styled, Fade } from "@mui/material";
+import { useState } from "react";
 
 const Light = styled(Lightbulb)`
   font-size: 120px;
@@ -19,9 +20,13 @@ const Container = styled(Box)`
 `;
 
 const EmptyNotes = () => {
+  const [fade, setFade] = useState(true);
+
   return (
     <Container>
-      <Light />
+      <Fade in={fade} timeout={1000}>
+        <Light onAnimationEnd={() => setFade(false)} />
+      </Fade>
       <Text>Notes you add appear here</Text>
     </Container>
   );
