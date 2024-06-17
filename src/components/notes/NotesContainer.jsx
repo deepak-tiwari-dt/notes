@@ -18,7 +18,7 @@ const NotesContainer = () => {
       {pinnedNotes.length > 0 && (
         <div>
           <h2>Pinned Notes</h2>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div className="note-container">
             {pinnedNotes.map((note) => (
               <Note key={note.id} note={note} />
             ))}
@@ -27,7 +27,7 @@ const NotesContainer = () => {
       )}
       <div>
         <h2>Other Notes</h2>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div className="note-container">
           {unpinnedNotes.map((note) => (
             <Note key={note.id} note={note} />
           ))}
